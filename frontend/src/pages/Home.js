@@ -19,11 +19,11 @@ const Home = () => {
                                     Quotely
                                 </Typography>
                                 <Flexbox alignItems="center">
-                                    <CustomButton backgroundColor="transparent" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => { }}>
+                                    <CustomButton backgroundColor="transparent" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => navigate('/login')}>
                                         Login
                                     </CustomButton>
                                     <Spacebox padding="5px" />
-                                    <CustomButton backgroundColor="var(--primary)" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => { }}>
+                                    <CustomButton backgroundColor="var(--primary)" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => navigate('/signup')}>
                                         Sign Up
                                     </CustomButton>
                                 </Flexbox>

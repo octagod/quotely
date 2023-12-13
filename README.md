@@ -14,6 +14,10 @@ Flask was used on the backend to handle user authentication and database instera
 
 ReactJs was used in the frontend.
 
+### Mysql
+
+Mysql was the preferred SQL database used.
+
 ### Packages
 
 **ReactJS**
@@ -30,8 +34,8 @@ Some of the prominent packages used in ReactJs were:
 The flask bit of this project can be found in **server** directory.
 
 Some of the prominent packages used in Flask were:
-1. Coming soon
+1. 
 
-## Authors
+## Author
 
 [Owen Nicklaus C. Ujumadu](mailto:ujumaduowen@gmail.com)
