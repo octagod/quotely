@@ -1,26 +1,22 @@
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, IconButton, Typography } from "@mui/material";
 import Flexbox from "../components/Flexbox";
 import Spacebox from "../components/styles/Spacebox";
 import CustomButton from "../components/styles/Custombutton";
 import CreatorSidebar from "../components/CreatorSidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import html2canvas from 'html2canvas';
+import cookies from "../utilities/Cookies";
+import { Download, Login, LogoutOutlined, Save } from '@mui/icons-material';
+import { useNavigate } from "react-router-dom";
+import Toast from "../components/Toast";
+import { Jelly } from "@uiball/loaders";
 
 const Creator = () => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const edit = urlParams.get('edit')
+    const pid = urlParams.get('id')
+
     // dynamic variables
-
-    // profile area : Nullable = true
-    // social media icons if profile area is true
-    // profile picture if profile area is true
-    // username if profile area is true
-    // @username if profile area is true
-    // verified badge if profile area is true
-    // content
-    // date and time
-    // dark or light theme
-    // background type - gradient, Solid Color, image
-    // canva size - wide(16:9), square(1:1)
-
     const [profileArea, setProfileArea] = useState(true)
     const [fullname, setFullname] = useState('John Doe')
     const [profile, setProfile] = useState(null)
@@ -35,6 +31,16 @@ const Creator = () => {
     const [backgroundPosition, setBackgroundPosition] = useState(null)
     const [backgroundSize, setBackgroundSize] = useState(null)
     const [canvaSize, setCanvaSize] = useState('16:9')
+
+    const stringify_user = cookies.getCookies("user")
+    const [user, setUser] = useState(null)
+    const navigate = useNavigate()
+
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success');
+    const [msg, setToastMsg] = useState('');
+
 
 
     const process = (word) => {
@@ -69,19 +75,277 @@ const Creator = () => {
         link.remove()
     }
 
+    const logout = () => {
+        fetch('/api/logout', { credentials: 'include' })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    cookies.deleteCookies('user')
+                    navigate('/')
+                } else {
+                    console.log(res.error)
+                    setToastMsg(res.msg)
+                    setOpen(true)
+                    setSeverity('error')
+                }
+            }).catch(err => {
+                console.log(err)
+                setToastMsg('An error occured')
+                setOpen(true)
+                setSeverity('error')
+            })
+    }
+
+    function populateData(pid) {
+        fetch('/api/get_project', {
+            credentials: 'include',
+            mode: 'cors',
+            method: 'POST',
+            headers: { "Content-Type": "application/json", "Accept": "application/json", "Origin": "http://localhost:3000" },
+            body: JSON.stringify({ id: pid })
+        }).then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    const project = res.project
+                    const content = JSON.parse(project.content)
+                    setProfileArea(content.profileArea)
+                    setFullname(content.fullname)
+                    // setProfile(null) 
+                    setUsername(content.username)
+                    setSocialMedia(content.socialMedia)
+                    setVerified(content.verified)
+                    setQuote(content.quote)
+                    setDateTime(content.dateTime)
+                    setDark(content.dark)
+                    if (content.backgroundType !== 'image') {
+                        setBackgroundType(content.backgroundType)
+                        setBackground(content.background)
+                        setBackgroundPosition(content.backgroundPosition)
+                        setBackgroundSize(content.backgroundSize)
+                    }
+                    setCanvaSize(content.canvaSize)
+
+                    setToastMsg("Project loaded")
+                    setOpen(true)
+                    setSeverity('success')
+                } else {
+                    console.log(res.error)
+                    setToastMsg(res.msg)
+                    setOpen(true)
+                    setSeverity('error')
+                    if (res.msg === "Invalid token")
+                        navigate('/login')
+                }
+            }).catch(err => {
+                console.log(err)
+                setToastMsg('An error occured')
+                setOpen(true)
+                setSeverity('error')
+            })
+    }
+
+    const saveProject = () => {
+        let title = window.prompt("Please enter project title", fullname + '-' + Date.now())
+        if (title !== null) {
+            const content = {
+                profileArea: profileArea,
+                fullname: fullname,
+                profile: profile,
+                username: username,
+                socialMedia: socialMedia,
+                verified: verified,
+                quote: quote,
+                dateTime: dateTime,
+                dark: dark,
+                backgroundType: backgroundType,
+                background: background,
+                backgroundPosition: backgroundPosition,
+                backgroundSize: backgroundSize,
+                canvaSize: canvaSize,
+            }
+            setLoading(true)
+            fetch('/api/add_project', {
+                mode: 'cors',
+                method: 'POST',
+                credentials: 'include',
+                headers: { "Content-Type": "application/json", "Accept": "application/json", "Origin": "http://localhost:3000" },
+                body: JSON.stringify({
+                    title: title,
+                    content: content,
+                    user_id: user.id
+                })
+            }).then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        setToastMsg("Project saved successfully")
+                        setOpen(true)
+                        setSeverity('success')
+                        setLoading(false)
+                        setTimeout(() => {
+                            navigate('/profile')
+                        }, 3000);
+                    } else {
+                        console.log(res.error)
+                        setToastMsg(res.msg)
+                        setOpen(true)
+                        setSeverity('error')
+                        setLoading(false)
+                        if (res.msg === "Invalid token")
+                            navigate('/login')
+                    }
+                }).catch(err => {
+                    console.log(err)
+                    setToastMsg('An error occured')
+                    setOpen(true)
+                    setSeverity('error')
+                    setLoading(false)
+                })
+        } else {
+            setToastMsg('Action aborted')
+            setOpen(true)
+            setSeverity('error')
+        }
+    }
+
+    const updateProject = () => {
+        let title = window.prompt("Please enter project title", fullname + '-' + Date.now())
+        if (title !== null) {
+            const content = {
+                profileArea: profileArea,
+                fullname: fullname,
+                profile: profile,
+                username: username,
+                socialMedia: socialMedia,
+                verified: verified,
+                quote: quote,
+                dateTime: dateTime,
+                dark: dark,
+                backgroundType: backgroundType,
+                background: background,
+                backgroundPosition: backgroundPosition,
+                backgroundSize: backgroundSize,
+                canvaSize: canvaSize,
+            }
+            setLoading(true)
+            fetch('/api/update_project', {
+                mode: 'cors',
+                method: 'POST',
+                credentials: 'include',
+                headers: { "Content-Type": "application/json", "Accept": "application/json", "Origin": "http://localhost:3000" },
+                body: JSON.stringify({
+                    id: pid,
+                    title: title,
+                    content: content,
+                })
+            }).then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        setToastMsg("Project updated successfully")
+                        setOpen(true)
+                        setSeverity('success')
+                        setLoading(false)
+                        setTimeout(() => {
+                            navigate('/profile')
+                        }, 3000);
+                    } else {
+                        console.log(res.error)
+                        setToastMsg(res.msg)
+                        setOpen(true)
+                        setSeverity('error')
+                        setLoading(false)
+                        if (res.msg === "Invalid token")
+                            navigate('/login')
+                    }
+                }).catch(err => {
+                    console.log(err)
+                    setToastMsg('An error occured')
+                    setOpen(true)
+                    setSeverity('error')
+                    setLoading(false)
+                })
+        } else {
+            setToastMsg('Action aborted')
+            setOpen(true)
+            setSeverity('error')
+        }
+    }
+
+    useEffect(() => {
+        if (stringify_user.length > 10)
+            setUser(JSON.parse(stringify_user))
+        if (edit)
+            populateData(pid)
+
+        // eslint-disable-next-line
+    }, [])
+
     return (
         <div className="creator-page">
+            <Toast open={open} setOpen={setOpen} severity={severity} timer={4000}>{msg}</Toast>
             <div className="creator-header" style={{ borderBottom: '1px solid #ffffff3a' }}>
                 <Spacebox padding="10px 40px">
                     <Flexbox justifyContent="space-between" alignItems="center">
                         <Typography className="logo-text" component="h4" variant="h4">
                             Quotely
                         </Typography>
-                        <CustomButton backgroundColor="var(--primary)" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => {
-                            downloadPost(document.querySelector('div.editor'))
-                        }}>
-                            Export ↓
-                        </CustomButton>
+                        <Flexbox alignItems="center">
+                            {user && (
+                                <Flexbox alignItems="center">
+                                    <CustomButton backgroundColor="#0068a8" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => {
+                                        if (pid)
+                                            updateProject()
+                                        else
+                                            saveProject()
+                                    }}>
+                                        {!loading && <Flexbox alignItems="center">
+                                            <Save sx={{ fontSize: 18 }} />
+                                            <Spacebox padding="3px" />
+                                            {edit ? <small>Update</small> : <span>Save</span>}
+                                        </Flexbox>}
+                                        {loading && <Flexbox justifyContent="center">
+                                            <Jelly size={18} color="white" />
+                                        </Flexbox>}
+                                    </CustomButton>
+                                    <Spacebox padding="10px" />
+                                </Flexbox>
+                            )}
+                            <CustomButton backgroundColor="#348b34" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => {
+                                downloadPost(document.querySelector('div.editor'))
+                            }}>
+                                <Flexbox>
+                                    <Download sx={{ fontSize: 18 }} />
+                                    <Spacebox padding="3px" />
+                                    <span>Export</span>
+                                </Flexbox>
+                            </CustomButton>
+                            {!user && <Flexbox alignItems="center">
+                                <Spacebox padding="10px" />
+                                <CustomButton backgroundColor="var(--primary)" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => {
+                                    navigate('/login')
+                                }}>
+                                    <Flexbox>
+                                        <Login sx={{ fontSize: 18 }} />
+                                        <Spacebox padding="3px" />
+                                        <span>Login</span>
+                                    </Flexbox>
+                                </CustomButton>
+                            </Flexbox>}
+                            {user && <Flexbox alignItems="center">
+                                <Spacebox padding="10px" />
+                                <IconButton onClick={() => navigate('/profile')}>
+                                    <Avatar sx={{ background: "var(--primary)" }}>
+                                        <small className="bold">
+                                            {user.fullname.split(" ")[0][0]}
+                                            {user.fullname.split(" ")[1][0]}
+                                        </small>
+                                    </Avatar>
+                                </IconButton>
+                                <Spacebox padding="5px" />
+                                <IconButton onClick={() => logout()}>
+                                    <LogoutOutlined sx={{ color: 'white' }} />
+                                </IconButton>
+                            </Flexbox>}
+                        </Flexbox>
                     </Flexbox>
                 </Spacebox>
                 <Spacebox padding="2px" />
@@ -118,7 +382,7 @@ const Creator = () => {
                                                 <b>{fullname}</b>
                                             </p>
                                             <Spacebox padding="2px" />
-                                            {verified && <img src="/svgs/verified.png" alt="verified" style={{width: '12px'}} />}
+                                            {verified && <img src="/svgs/verified.png" alt="verified" style={{ width: '12px' }} />}
                                         </Flexbox>
                                         <small style={{ opacity: 0.5 }}>
                                             @{username}

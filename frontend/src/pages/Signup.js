@@ -7,6 +7,7 @@ import { Jelly } from "@uiball/loaders"
 import Flexbox from "../components/Flexbox";
 import Toast from "../components/Toast";
 import { Link, useNavigate } from "react-router-dom";
+import cookies from "../utilities/Cookies";
 
 const Signup = () => {
 
@@ -25,7 +26,7 @@ const Signup = () => {
     const handleRegister = () => {
         if (fullname !== '' && email.includes("@") && password.length > 7) {
             setLoading(true)
-            fetch('/register', {
+            fetch('/api/register', {
                 credentials: 'include',
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -33,7 +34,7 @@ const Signup = () => {
             }).then(res => res.json())
                 .then(res => {
                     if (res.success) {
-                        console.log(res)
+                        cookies.setCookies("user", JSON.stringify(res.user), 1)
                         setToastMsg("Account created successfully")
                         setOpen(true)
                         setSeverity('success')
@@ -102,7 +103,6 @@ const Signup = () => {
                                 label="Email"
                                 color="primary"
                                 type="email"
-                                autoComplete={false}
                                 style={{ borderRadius: 20 }}
                             />
                             <Spacebox padding="10px" />
@@ -114,7 +114,6 @@ const Signup = () => {
                                 label="Password"
                                 color="primary"
                                 type="password"
-                                autoComplete={false}
                                 style={{ borderRadius: 20 }}
                             />
                             <Spacebox padding="2px" />

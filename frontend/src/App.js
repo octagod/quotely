@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Creator from "./pages/Creator";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
            <Route exact path="/creator" element={<Creator />}/>
            <Route exact path="/signup" element={<Signup />}/>
            <Route exact path="/login" element={<Login />}/>
+           <Route exact path="/profile" element={<Profile />}/>
          </Routes>
       </Router>
     </div>

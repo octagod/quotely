@@ -1,6 +1,6 @@
 # Quotely
 
-This is a tool that allows users to easily create beautiful social media posts images instantly, fully customisable and 100% you all for free.
+This is a tool that allows users to easily create beautiful social media posts images instantly, fully customisable and 100% all for free.
 
 ## Stacks
 
@@ -34,7 +34,9 @@ Some of the prominent packages used in ReactJs were:
 The flask bit of this project can be found in **server** directory.
 
 Some of the prominent packages used in Flask were:
-1. 
+1. Flask SQLAlchemy
+2. FLask Bcrypt
+3. Python JWT
 
 ## Author
 

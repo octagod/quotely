@@ -27,4 +27,4 @@ class Projects(db.Model):
 
     def __repr__(self):
         """String representation of the class"""
-        return f"Project({self.title}, {self.id})"
+        return f"Project({self.title}, uid={self.user_id})"
