@@ -1,2 +1,4 @@
 __pycache__
 quotely/__pycache__/
+.env
+frontend/.env
