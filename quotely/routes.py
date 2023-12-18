@@ -20,6 +20,7 @@ secret_key = os.environ["SECRET_KEY"]
 @cross_origin()
 def serve():
     """Serves the front end"""
+    print(app.static_folder)
     return send_from_directory(app.static_folder, "index.html")
 
 @app.route('/api/register', methods=["POST"])
