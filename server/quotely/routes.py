@@ -2,8 +2,9 @@
 import os
 import json
 import jwt
-from flask import jsonify, request, make_response
+from flask import jsonify, request, make_response, send_from_directory
 from flask_bcrypt import Bcrypt
+from flask_cors import cross_origin
 from dotenv import load_dotenv
 
 from quotely.models import Users, Projects
@@ -15,8 +16,14 @@ load_dotenv()
 secret_key = os.environ["SECRET_KEY"]
 
 
+@app.route('/')
+@cross_origin()
+def serve():
+    """Serves the front end"""
+    return send_from_directory(app.static_folder, "index.html")
 
 @app.route('/api/register', methods=["POST"])
+@cross_origin()
 def register():
     "create new user route"
     response = {}
@@ -60,6 +67,7 @@ def register():
     return jsonify(response)
 
 @app.route("/api/login", methods=["POST"])
+@cross_origin()
 def login():
     """Login route"""
     response = {}
@@ -91,6 +99,7 @@ def login():
     return response
 
 @app.route('/api/logout', methods=["GET"])
+@cross_origin()
 def logout():
     """Logout request"""
     res = make_response()
@@ -112,6 +121,7 @@ def logout():
     return res
 
 @app.route('/api/user', methods=["GET"])
+@cross_origin()
 def user():
     """Get user details including projects"""
     res = make_response()
@@ -160,6 +170,7 @@ def user():
 
 
 @app.route("/api/add_project", methods=["POST"])
+@cross_origin()
 def add_project():
     """Add project to user's projects"""
     res = make_response()
@@ -193,6 +204,7 @@ def add_project():
     return res
 
 @app.route('/api/get_project', methods=["POST"])
+@cross_origin()
 def get_project():
     """Get Project"""
     res = make_response()
@@ -224,6 +236,7 @@ def get_project():
     return res
 
 @app.route('/api/update_project', methods=["POST"])
+@cross_origin()
 def update_project():
     """Update project"""
     res = make_response()
@@ -252,6 +265,7 @@ def update_project():
 
 
 @app.route('/api/delete_project', methods=["POST"])
+@cross_origin()
 def delete_project():
     """Delete Project"""
     res = make_response()

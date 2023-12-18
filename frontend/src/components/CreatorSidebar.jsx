@@ -97,6 +97,32 @@ const CreatorSidebar = ({ data }) => {
         sidebar = document.querySelector('.creator-sidebar .sidebar').offsetWidth;
     if (document.querySelector('.creator-header'))
         header = document.querySelector('.creator-header').offsetHeight;
+
+    const setBgType = (type) => {
+        switch(type) {
+            case "solid":
+                data.backgroundSize[1]("")
+                data.backgroundPosition[1]("")
+                data.backgroundType[1]("solid")
+                break
+            case "gradient":
+                data.backgroundSize[1]("")
+                data.backgroundPosition[1]("")
+                data.backgroundType[1]("gradient")
+                break
+            case "image":
+                data.backgroundSize[1]("cover")
+                data.backgroundPosition[1]("center")
+                data.backgroundType[1]("image")
+                break
+            default:
+                data.backgroundSize[1]("cover")
+                data.backgroundPosition[1]("center")
+                data.backgroundType[1]("image")
+                break
+        }
+    }
+
     return (
         <div className="creator-sidebar" style={{ padding: '30px 10px' }}>
             <div style={{ border: '1px solid #ffffff3a', borderRadius: '20px' }} className="sidebar">
@@ -236,7 +262,7 @@ const CreatorSidebar = ({ data }) => {
                         name="background-type"
                         id="background-type"
                         value={data.backgroundType[0]}
-                        onChange={(e) => data.backgroundType[1](e.target.value)}
+                        onChange={(e) => setBgType(e.target.value)}
                     >
                         <option value="solid">Solid Color</option>
                         <option value="gradient">Gradient</option>
