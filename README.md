@@ -37,6 +37,7 @@ Some of the prominent packages used in Flask were:
 1. Flask SQLAlchemy
 2. FLask Bcrypt
 3. Python JWT
+4. Flask CORS
 
 ## Author
 
