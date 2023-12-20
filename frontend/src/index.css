@@ -312,6 +312,10 @@ select:hover {
   display: block !important;
 }
 
+.vertical-scroll {
+  overflow-y: scroll;
+}
+
 @keyframes scroll {
   from {
     transform: translateY(0);

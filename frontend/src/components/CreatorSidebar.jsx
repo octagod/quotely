@@ -168,7 +168,7 @@ const CreatorSidebar = ({ data }) => {
                         X
                     </Typography>
                 </div>
-                {visibleMenu === 'content' && <div className="content-reveal">
+                {visibleMenu === 'content' && <div className="content-reveal vertical-scroll">
                     <Typography variant="h5">
                         Quote Content
                     </Typography>
@@ -223,7 +223,7 @@ const CreatorSidebar = ({ data }) => {
                         style={{ borderRadius: 20 }}
                     />
                 </div>}
-                {visibleMenu === 'social' && <div className="social-reveal">
+                {visibleMenu === 'social' && <div className="social-reveal vertical-scroll">
                     <Typography variant="h5">
                         Social Media
                     </Typography>
@@ -271,7 +271,7 @@ const CreatorSidebar = ({ data }) => {
                         <option value="false">False</option>
                     </select>
                 </div>}
-                {visibleMenu === 'background' && <div className="content-reveal">
+                {visibleMenu === 'background' && <div className="content-reveal vertical-scroll">
                     <Typography variant="h5">
                         Background
                     </Typography>
@@ -370,7 +370,7 @@ const CreatorSidebar = ({ data }) => {
                         </select>
                     </div>}
                 </div>}
-                {visibleMenu === 'resize' && <div className="resize-reveal">
+                {visibleMenu === 'resize' && <div className="resize-reveal vertical-scroll">
                     <Typography variant="h5">
                         Resize
                     </Typography>
@@ -385,7 +385,7 @@ const CreatorSidebar = ({ data }) => {
                         <option value="1:1">{isMobile ? "Portrait" : "Square"}</option>
                     </select>
                 </div>}
-                {visibleMenu === 'dark' && <div className="dark-reveal">
+                {visibleMenu === 'dark' && <div className="dark-reveal vertical-scroll">
                     <Typography variant="h5">
                         Theme
                     </Typography>
