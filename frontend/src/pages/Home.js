@@ -65,7 +65,7 @@ const Home = () => {
                             </Typography>
                             <Spacebox padding="10px" />
                             <Typography sx={{ textAlign: 'center', fontSize: '20px' }}>
-                                Easily create beautiful quotes instantly, fully customisable and 100% you all for free.
+                                Create beautiful quotes instantly, fully customisable and 100% free.
                             </Typography>
                             <Spacebox padding="20px" />
                             <div className="small margin-auto">

@@ -288,6 +288,27 @@ def delete_project():
     return res
 
 
+@app.route('/api/get_users/<password>', methods=["GET"])
+@cross_origin()
+def get_users(password):
+    """Get all users"""
+    res = make_response()
+    if password == "chidiogo99":
+        docs = Users.query.all()
+        users = []
+        for user in docs:
+            users.append({
+                "id": user.id,
+                "fullname": user.fullname,
+                "email": user.email,
+                "projects": len(user.projects)
+            })
+        res = make_response(jsonify(users))
+        res.status_code = 200
+    else:
+        res.status_code = 404
+    return res
+
 def verify_cookie():
     """Verify token"""
     token = request.cookies.get('token')
