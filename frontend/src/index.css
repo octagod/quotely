@@ -5,14 +5,14 @@
   --gradient: linear-gradient(to right, #625df5, #413da2);
 }
 
-@font-face{
+@font-face {
   font-family: "Nordique Pro Bold";
   src: url("/public/fonts/Nordique-Pro-Bold.woff")format("woff"),
-      url("/public/fonts/Nordique-Pro-Bold.woff2")format("woff2"),
-      url("/public/fonts/Nordique-Pro-Bold.ttf")format("truetype");
-  font-weight:normal;
-  font-style:normal;
-  font-display:swap;
+    url("/public/fonts/Nordique-Pro-Bold.woff2")format("woff2"),
+    url("/public/fonts/Nordique-Pro-Bold.ttf")format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 body {
@@ -151,11 +151,11 @@ div.logo-icon img {
 
   0%,
   100% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
 
   50% {
-      background-position: 100% 50%;
+    background-position: 100% 50%;
   }
 }
 
@@ -208,7 +208,7 @@ div.logo-icon img {
   position: relative;
 }
 
-.pulse > * {
+.pulse>* {
   z-index: 2;
 }
 
@@ -226,7 +226,8 @@ div.logo-icon img {
   z-index: -1;
 }
 
-fieldset, label {
+fieldset,
+label {
   color: white !important;
 }
 
@@ -235,7 +236,8 @@ fieldset {
   border-radius: 10px !important;
 }
 
-input, textarea {
+input,
+textarea {
   color: white !important;
 }
 
@@ -312,14 +314,11 @@ select:hover {
   display: block !important;
 }
 
-.vertical-scroll {
-  overflow-y: scroll;
-}
-
 @keyframes scroll {
   from {
     transform: translateY(0);
   }
+
   to {
     transform: translateY(-3000px);
   }
@@ -334,6 +333,10 @@ select:hover {
 @media screen and (max-width: 900px) {
   .hide-on-med-and-down {
     display: none !important;
+  }
+
+  .vertical-scroll {
+    overflow-y: scroll;
   }
 }
 
