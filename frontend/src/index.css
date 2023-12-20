@@ -308,11 +308,33 @@ select:hover {
   opacity: .3;
 }
 
+.no-grid-small {
+  display: block !important;
+}
+
 @keyframes scroll {
   from {
     transform: translateY(0);
   }
   to {
     transform: translateY(-3000px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  h3 {
+    font-size: 30px !important;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .hide-on-med-and-down {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 901px) {
+  .hide-on-large-only {
+    display: none !important;
   }
 }

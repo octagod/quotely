@@ -1,24 +1,45 @@
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import Flexbox from "../components/Flexbox";
 import Spacebox from "../components/styles/Spacebox";
 import CustomButton from "../components/styles/Custombutton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { isMobile } from 'react-device-detect';
+import { Close, Menu } from '@mui/icons-material';
+import { useState } from "react";
 
 const Home = () => {
 
+
     const navigate = useNavigate()
+    const [openMenu, setOpenMenu] = useState(false)
 
     return (
         <div className="home-page" style={{ overflowX: 'hidden' }}>
             <div>
+                {openMenu && <div style={{ position: 'fixed', width: "100%", height: "100vh", left: 0, top: 0, background: 'var(--primary)', zIndex: 100 }}>
+                    <Spacebox padding="20px" />
+                    <Flexbox justifyContent="flex-end">
+                        <IconButton onClick={() => setOpenMenu(false)}>
+                            <Close  sx={{ color: 'white', fontSize: '40px' }}/>
+                        </IconButton>
+                    </Flexbox>
+                    <Spacebox padding="10px" />
+                    <Typography sx={{fontSize: '40px', textAlign: 'center'}}>
+                        <Link to="/login" className="bold" style={{color: 'white'}}>Login</Link>
+                    </Typography>
+                    <Spacebox padding="10px" />
+                    <Typography sx={{fontSize: '40px', textAlign: 'center'}}>
+                        <Link to="/signup" className="bold" style={{color: 'white'}}>Sign Up</Link>
+                    </Typography>
+                </div>}
                 <div className="fullwidth" style={{ minHeight: '100vh', position: "relative" }}>
-                    <div className="creator-header" style={{zIndex: 2, position: 'relative'}}>
-                        <Spacebox padding="10px 40px">
+                    <div className="creator-header" style={{ zIndex: 2, position: 'relative' }}>
+                        <Spacebox padding={isMobile ? "10px" : "10px 40px"}>
                             <Flexbox justifyContent="space-between" alignItems="center">
                                 <Typography className="logo-text" component="h4" variant="h4">
                                     Quotely
                                 </Typography>
-                                <Flexbox alignItems="center">
+                                <Flexbox alignItems="center" className="hide-on-med-and-down">
                                     <CustomButton backgroundColor="transparent" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => navigate('/login')}>
                                         Login
                                     </CustomButton>
@@ -27,13 +48,18 @@ const Home = () => {
                                         Sign Up
                                     </CustomButton>
                                 </Flexbox>
+                                {isMobile && (
+                                    <IconButton onClick={() => setOpenMenu(true)}>
+                                        <Menu style={{ color: 'white' }} />
+                                    </IconButton>
+                                )}
                             </Flexbox>
                         </Spacebox>
                         <Spacebox padding="2px" />
                     </div>
                     <Spacebox padding="50px" />
                     <Flexbox alignItems="flex-start" justifyContent="center" style={{ position: "relative", zIndex: '2', margin: '0px auto' }}>
-                        <div>
+                        <div style={{ padding: isMobile ? "10px" : "0px" }}>
                             <Typography variant="h3" sx={{ textAlign: 'center' }}>
                                 Instantly create <b className="primary-text"> beautiful social media</b><br />posts images for fun.
                             </Typography>

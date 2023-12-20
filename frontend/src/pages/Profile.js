@@ -8,6 +8,7 @@ import { Add, DateRangeOutlined, DeleteOutline, EditNoteOutlined, EditOutlined, 
 import cookies from "../utilities/Cookies";
 import { Jelly } from "@uiball/loaders";
 import CustomGrid from "../components/styles/Grid";
+import { isMobile } from "react-device-detect";
 
 const Profile = () => {
 
@@ -172,7 +173,7 @@ const Profile = () => {
                                 </Avatar>
                                 <Spacebox padding="10px" />
                                 <div>
-                                    <Typography variant="h4">
+                                    <Typography variant="h4" style={isMobile ? {fontSize: "25px"} : {}}>
                                         {dbUser.fullname}
                                     </Typography>
                                     <Spacebox padding="5px" />
@@ -206,10 +207,10 @@ const Profile = () => {
                             </Typography>
                         </div>
                     ) : (
-                        <CustomGrid grid={4} gap="20px">
+                        <CustomGrid grid={4} gap="20px" className="no-grid-small">
                             {dbUser.projects.map((project, index) => (
-                                <div key={index} style={{ background: "#ffffff2a", borderRadius: '10px' }}>
-                                    <Spacebox padding="20px">
+                                <div key={index} style={{ background: "#ffffff2a", borderRadius: '10px', margin: isMobile ? '10px auto' : "0px" }}>
+                                    <Spacebox padding={isMobile ? "15px" : "20px"}>
                                         <Flexbox justifyContent="space-between" alignItems="center">
                                             <IconButton onClick={() => deleteProject(project)}>
                                                 <DeleteOutline sx={{ color: '#F64F64', fontSize: 20 }} />
@@ -219,20 +220,21 @@ const Profile = () => {
                                             </IconButton>
                                         </Flexbox>
                                         <Spacebox padding="5px" />
-                                        <Typography sx={{ fontSize: '20px' }}>
+                                        <Typography sx={{ fontSize: isMobile ? "16px" : '20px' }}>
                                             {project.title}
                                         </Typography>
                                         <Spacebox padding="10px" />
                                         <Flexbox alignItems="center" >
-                                            <DateRangeOutlined sx={{ fontSize: 18 }} />
-                                            <Spacebox padding="1.5px" />
-                                            <small>{project.timestamp}</small>
+                                            <DateRangeOutlined sx={{ fontSize: 18, opacity: isMobile ? .7 : 1 }} />
+                                            <Spacebox padding={isMobile ? "5.5px" : "1.5px"} />
+                                            <small style={isMobile ? {fontSize: "10px", opacity: .7} : {}}>{project.timestamp}</small>
                                         </Flexbox>
                                     </Spacebox>
                                 </div>
                             ))}
                         </CustomGrid>
                     )}
+                    <Spacebox padding="10px" />
                 </div>)}
             </Container>
         </div>

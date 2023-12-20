@@ -3,6 +3,7 @@ import Spacebox from "./styles/Spacebox";
 import { useState } from "react";
 import Flexbox from "./Flexbox";
 import { TwitterPicker } from "react-color";
+import { isMobile } from "react-device-detect";
 
 const CreatorSidebar = ({ data }) => {
     const [visibleMenu, setVisibleMenu] = useState('')
@@ -123,13 +124,34 @@ const CreatorSidebar = ({ data }) => {
         }
     }
 
+    // STYLES
+    const creator_sidebar_style = isMobile ? {
+        position: "relative", width: 0
+    } : { padding: '30px 10px' }
+
+    const sidebar_style = isMobile ? {
+        position: "fixed", bottom: "10px", left: "10px", width: 'calc(100% - 20px)', border: '1px solid #ffffff3a', borderRadius: '20px', background: '#0000004a' 
+    } : { border: '1px solid #ffffff3a', borderRadius: '20px' }
+
+    const sidebar_inner = isMobile ? {
+        display: "flex", alignItems: "center", padding: '5px', justifyContent: 'space-between'
+    } : {padding: '20px'}
+
+    const item_style = isMobile ? {
+        minWidth: 40, maxWidth: 40, margin: '10px', textAlign: 'center', cursor: 'pointer'
+    } : { minWidth: 40, maxWidth: 40, margin: '40px auto', textAlign: 'center', cursor: 'pointer' }
+
+    const visible_menu_style = isMobile ? {
+        zIndex: '100', position: 'fixed', left: "0px", top: "0px", width: 'calc(100% - 40px)', padding: "20px", background: '#171923', height: '100vh'
+    } : { border: '1px solid #ffffff3a', borderRadius: '20px', zIndex: '100', position: 'fixed', left: (sidebar + 20) + "px", top: (header + 30) + "px", width: '400px', padding: "20px", background: '#171923' }
+
     return (
-        <div className="creator-sidebar" style={{ padding: '30px 10px' }}>
-            <div style={{ border: '1px solid #ffffff3a', borderRadius: '20px' }} className="sidebar">
-                <Spacebox padding="20px">
+        <div className="creator-sidebar" style={{...creator_sidebar_style }}>
+            <div style={{ ...sidebar_style }} className="sidebar">
+                <Spacebox className="sidebar-inner" style={{...sidebar_inner}}>
                     {menus.map((menu, index) => (
-                        <div key={index} onClick={menu.action} style={{ minWidth: 40, maxWidth: 40, margin: '40px auto', textAlign: 'center', cursor: 'pointer' }}>
-                            <div style={{ textAlign: 'center', padding: '10px', borderRadius: '5px', background: '#0000003a' }}>
+                        <div key={index} className="item" onClick={menu.action} style={{...item_style}}>
+                            <div style={{ textAlign: 'center', padding: '10px', borderRadius: '5px', background: isMobile ? "transparent" : '#0000003a' }}>
                                 <img src={menu.image} alt={menu.title} style={{ width: 20, filter: 'invert(1)' }} />
                             </div>
                             <Spacebox padding="5px" />
@@ -140,7 +162,7 @@ const CreatorSidebar = ({ data }) => {
                     ))}
                 </Spacebox>
             </div>
-            {visibleMenu && <div className="reveal-block" style={{ border: '1px solid #ffffff3a', borderRadius: '20px', zIndex: '20', position: 'fixed', left: (sidebar + 20) + "px", top: (header + 30) + "px", width: '400px', padding: "20px", background: '#171923' }}>
+            {visibleMenu && <div className="reveal-block" style={{ ...visible_menu_style }}>
                 <div>
                     <Typography textAlign="right" style={{ cursor: 'pointer' }} onClick={() => setVisibleMenu(null)}>
                         X
@@ -359,8 +381,8 @@ const CreatorSidebar = ({ data }) => {
                         value={data.canvaSize[0]}
                         onChange={(e) => data.canvaSize[1](e.target.value)}
                     >
-                        <option value="16:9">Wide</option>
-                        <option value="1:1">Square</option>
+                        <option value="16:9">{isMobile ? "Square" : "Wide"}</option>
+                        <option value="1:1">{isMobile ? "Portrait" : "Square"}</option>
                     </select>
                 </div>}
                 {visibleMenu === 'dark' && <div className="dark-reveal">

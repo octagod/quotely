@@ -6,10 +6,11 @@ import CreatorSidebar from "../components/CreatorSidebar";
 import { useEffect, useState } from "react";
 import html2canvas from 'html2canvas';
 import cookies from "../utilities/Cookies";
-import { Download, Login, LogoutOutlined, Save } from '@mui/icons-material';
+import { Close, Download, Login, LogoutOutlined, Menu, Save } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
 import Toast from "../components/Toast";
 import { Jelly } from "@uiball/loaders";
+import { isMobile } from "react-device-detect";
 
 const Creator = () => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -27,9 +28,9 @@ const Creator = () => {
     const [dateTime, setDateTime] = useState('12/2/2023 • 8:17am')
     const [dark, setDark] = useState(true)
     const [backgroundType, setBackgroundType] = useState('solid')
-    const [background, setBackground] = useState('blue')
-    const [backgroundPosition, setBackgroundPosition] = useState(null)
-    const [backgroundSize, setBackgroundSize] = useState(null)
+    const [background, setBackground] = useState('brown')
+    const [backgroundPosition, setBackgroundPosition] = useState("")
+    const [backgroundSize, setBackgroundSize] = useState("")
     const [canvaSize, setCanvaSize] = useState('16:9')
 
     const stringify_user = cookies.getCookies("user")
@@ -40,6 +41,8 @@ const Creator = () => {
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState('success');
     const [msg, setToastMsg] = useState('');
+
+    const [openMenu, setOpenMenu] = useState(false)
 
 
 
@@ -59,8 +62,12 @@ const Creator = () => {
         html2canvas(div).then(canvas => {
             var myImage = canvas.toDataURL();
             downloadURI(myImage, `quotely_${Date.now()}`);
+            setToastMsg("Post downloaded successfully")
+            setOpen(true)
+            setSeverity('success')
         });
         branded.classList.add('hide');
+
     }
 
 
@@ -279,16 +286,100 @@ const Creator = () => {
         // eslint-disable-next-line
     }, [])
 
+    // STYLES
+    const creator_body_style = isMobile ? {
+        alignItems: "center", minHeight: "calc(100vh - 110px)"
+    } : {}
+
     return (
         <div className="creator-page">
             <Toast open={open} setOpen={setOpen} severity={severity} timer={4000}>{msg}</Toast>
+            {openMenu && <div style={{ background: '#171923', height: '100vh', padding: '10px', position: 'fixed', left: '0', top: '0px', zIndex: '200', width: 'calc(100% - 20px)' }}>
+                <Flexbox justifyContent="space-between" alignItems="center">
+                    <div>
+                        {user &&
+                            <IconButton onClick={() => navigate('/profile')}>
+                                <Avatar sx={{ background: "var(--primary)" }}>
+                                    <small className="bold">
+                                        {user.fullname.split(" ")[0][0]}
+                                        {user.fullname.split(" ")[1][0]}
+                                    </small>
+                                </Avatar>
+                            </IconButton>}
+                    </div>
+                    <IconButton onClick={() => setOpenMenu(false)}>
+                        <Close sx={{ fontSize: '40px', color: 'white' }} />
+                    </IconButton>
+                </Flexbox>
+                <Spacebox padding="20px" />
+                {user && (
+                    <div>
+                        <CustomButton backgroundColor="transparent" className="fullwidth" borderRadius="10px" color="white" padding="10px 0px" handleClick={() => {
+                            if (pid)
+                                updateProject()
+                            else
+                                saveProject()
+                        }}>
+                            {!loading && <Flexbox alignItems="center" justifyContent="center">
+                                <Save sx={{ fontSize: 40 }} />
+                                <Spacebox padding="5px" />
+                                <Typography sx={{ fontSize: 40, color: "white", fontWeight: 700 }}>
+                                    {edit ? "Update" : "Save"}
+                                </Typography>
+                            </Flexbox>}
+
+                            {loading && <Flexbox justifyContent="center">
+                                <Jelly size={18} color="white" />
+                            </Flexbox>}
+                        </CustomButton>
+                        <Spacebox padding="10px" />
+                    </div>
+                )}
+                <CustomButton backgroundColor="transparent" className="fullwidth" borderRadius="10px" color="white" padding="10px 0px" handleClick={() => {
+                    downloadPost(document.querySelector('div.editor'))
+                }}>
+                    <Flexbox alignItems="center" justifyContent="center">
+                        <Download sx={{ fontSize: 40 }} />
+                        <Spacebox padding="5px" />
+                        <Typography sx={{ fontSize: 40, color: "white", fontWeight: 700 }}>
+                            Export
+                        </Typography>
+                    </Flexbox>
+                </CustomButton>
+                {!user && <div>
+                    <Spacebox padding="10px" />
+                    <CustomButton backgroundColor="transparent" className="fullwidth" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => {
+                        navigate('/login')
+                    }}>
+                        <Flexbox alignItems="center" justifyContent="center">
+                            <Login sx={{ fontSize: 40 }} />
+                            <Spacebox padding="5px" />
+                            <Typography sx={{ fontSize: 40, color: "white", fontWeight: 700 }}>
+                                Login
+                            </Typography>
+                        </Flexbox>
+                    </CustomButton>
+                </div>}
+                {user && <div>
+                    <Spacebox padding="10px" />
+                    <CustomButton backgroundColor="transparent" className="fullwidth" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => logout()}>
+                        <Flexbox alignItems="center" justifyContent="center">
+                            <LogoutOutlined sx={{ fontSize: 40 }} />
+                            <Spacebox padding="5px" />
+                            <Typography sx={{ fontSize: 40, color: "white", fontWeight: 700 }}>
+                                Logout
+                            </Typography>
+                        </Flexbox>
+                    </CustomButton>
+                </div>}
+            </div>}
             <div className="creator-header" style={{ borderBottom: '1px solid #ffffff3a' }}>
-                <Spacebox padding="10px 40px">
+                <Spacebox padding={isMobile ? "10px" : "10px 40px"}>
                     <Flexbox justifyContent="space-between" alignItems="center">
                         <Typography className="logo-text" component="h4" variant="h4">
                             Quotely
                         </Typography>
-                        <Flexbox alignItems="center">
+                        {!isMobile && <Flexbox alignItems="center">
                             {user && (
                                 <Flexbox alignItems="center">
                                     <CustomButton backgroundColor="#0068a8" borderRadius="10px" color="white" padding="10px 40px" handleClick={() => {
@@ -345,12 +436,17 @@ const Creator = () => {
                                     <LogoutOutlined sx={{ color: 'white' }} />
                                 </IconButton>
                             </Flexbox>}
-                        </Flexbox>
+                        </Flexbox>}
+                        {isMobile && (
+                            <IconButton onClick={() => setOpenMenu(true)}>
+                                <Menu style={{ color: 'white' }} />
+                            </IconButton>
+                        )}
                     </Flexbox>
                 </Spacebox>
                 <Spacebox padding="2px" />
             </div>
-            <Flexbox>
+            <Flexbox className="creator-body" style={{ ...creator_body_style }}>
                 <CreatorSidebar data={{
                     profileArea: [profileArea, setProfileArea],
                     fullname: [fullname, setFullname],
@@ -367,7 +463,7 @@ const Creator = () => {
                     backgroundSize: [backgroundSize, setBackgroundSize],
                     canvaSize: [canvaSize, setCanvaSize]
                 }} />
-                <Spacebox padding="20px" />
+                {!isMobile && <Spacebox padding="20px" />}
                 <div className="editor-holder" style={{ width: 600, height: canvaSize === '16:9' ? '337.5px' : '600px', margin: 'auto' }}>
                     <div className="editor" style={{ background: background, aspectRatio: canvaSize, width: "100%", height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundPosition: backgroundPosition ?? "center", backgroundSize: backgroundSize ?? "cover" }}>
                         <div className="quote-holder" style={{ background: dark ? '#171923' : '#fff', width: '80%', minHeight: 200, borderRadius: '20px', boxShadow: '0px 10px 20px #0000003a', color: dark ? 'white' : 'black', padding: '20px', position: "relative" }}>
