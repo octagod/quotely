@@ -103,22 +103,10 @@ def login():
 @cross_origin()
 def logout():
     """Logout request"""
-    res = make_response()
-    verify = verify_cookie()
-    
-    if verify["success"]:
-        res = make_response(jsonify({
-            "success": True
-        }))
-        res.set_cookie("token", "", expires=0)
-    else:
-        res = make_response(jsonify({
-            "success": verify["success"],
-            "msg": "An error occured",
-            "error": verify["error"]
-        }))
-        res.status_code = verify["code"]
-    
+    res = make_response(jsonify({
+        "success": True
+    }))
+    res.set_cookie("token", "", expires=0)
     return res
 
 @app.route('/api/user', methods=["GET"])
