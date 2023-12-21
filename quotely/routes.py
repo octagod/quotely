@@ -162,7 +162,7 @@ def user():
 
     return res
 
-@app.route('/api/update_user/<id>', methods=["GET"])
+@app.route('/api/update_user/<id>', methods=["POST"])
 @cross_origin
 def update_user(id):
     """Update user in db"""
