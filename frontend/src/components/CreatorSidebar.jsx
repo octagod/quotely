@@ -1,4 +1,4 @@
-import { TextField, Typography } from "@mui/material";
+import { TextField, Typography, Slider } from "@mui/material";
 import Spacebox from "./styles/Spacebox";
 import { useState } from "react";
 import Flexbox from "./Flexbox";
@@ -100,7 +100,7 @@ const CreatorSidebar = ({ data }) => {
         header = document.querySelector('.creator-header').offsetHeight;
 
     const setBgType = (type) => {
-        switch(type) {
+        switch (type) {
             case "solid":
                 data.backgroundSize[1]("")
                 data.backgroundPosition[1]("")
@@ -124,18 +124,26 @@ const CreatorSidebar = ({ data }) => {
         }
     }
 
+    function valuetext(value) {
+        return `${value}`;
+    }
+
+    const handleOpacityChange = (event, newValue) => {
+        data.opacity[1](newValue)
+    }
+
     // STYLES
     const creator_sidebar_style = isMobile ? {
         position: "relative", width: 0
     } : { padding: '30px 10px' }
 
     const sidebar_style = isMobile ? {
-        position: "fixed", bottom: "10px", left: "10px", width: 'calc(100% - 20px)', border: '1px solid #ffffff3a', borderRadius: '20px', background: '#0000004a' 
+        position: "fixed", bottom: "10px", left: "10px", width: 'calc(100% - 20px)', border: '1px solid #ffffff3a', borderRadius: '20px', background: '#0000004a'
     } : { border: '1px solid #ffffff3a', borderRadius: '20px' }
 
     const sidebar_inner = isMobile ? {
         display: "flex", alignItems: "center", padding: '5px', justifyContent: 'space-between'
-    } : {padding: '20px'}
+    } : { padding: '20px' }
 
     const item_style = isMobile ? {
         minWidth: 40, maxWidth: 40, margin: '10px', textAlign: 'center', cursor: 'pointer'
@@ -143,14 +151,14 @@ const CreatorSidebar = ({ data }) => {
 
     const visible_menu_style = isMobile ? {
         zIndex: '100', position: 'fixed', left: "0px", top: "0px", width: 'calc(100% - 40px)', padding: "20px", background: '#171923', height: '100vh'
-    } : { border: '1px solid #ffffff3a', borderRadius: '20px', zIndex: '100', position: 'fixed', left: (sidebar + 20) + "px", top: (header + 30) + "px", width: '400px', padding: "20px", background: '#171923' }
+    } : { border: '1px solid #ffffff3a', borderRadius: '20px', zIndex: '100', position: 'fixed', left: (sidebar + 20) + "px", top: (header + 30) + "px", width: '400px', padding: "20px", background: '#171923', maxHeight: `calc(100vh - ${header + 100}px)`, overflowY: 'scroll', overflowX: 'hidden' }
 
     return (
-        <div className="creator-sidebar" style={{...creator_sidebar_style }}>
+        <div className="creator-sidebar" style={{ ...creator_sidebar_style }}>
             <div style={{ ...sidebar_style }} className="sidebar">
-                <Spacebox className="sidebar-inner" style={{...sidebar_inner}}>
+                <Spacebox className="sidebar-inner" style={{ ...sidebar_inner }}>
                     {menus.map((menu, index) => (
-                        <div key={index} className="item" onClick={menu.action} style={{...item_style}}>
+                        <div key={index} className="item" onClick={menu.action} style={{ ...item_style }}>
                             <div style={{ textAlign: 'center', padding: '10px', borderRadius: '5px', background: isMobile ? "transparent" : '#0000003a' }}>
                                 <img src={menu.image} alt={menu.title} style={{ width: 20, filter: 'invert(1)' }} />
                             </div>
@@ -291,6 +299,24 @@ const CreatorSidebar = ({ data }) => {
                         <option value="image">Image</option>
                     </select>
                     <Spacebox padding="10px" />
+                    <small style={{ paddingLeft: '5px' }}>
+                        Post Opacity
+                    </small>
+                    <Spacebox padding="2px" />
+                    <Slider
+                        aria-label="Opacity"
+                        defaultValue={10}
+                        getAriaValueText={valuetext}
+                        value={data.opacity[0]}
+                        onChange={handleOpacityChange}
+                        valueLabelDisplay="auto"
+                        step={1}
+                        marks
+                        min={0}
+                        max={10}
+                        sx={{ color: "var(--primary)" }}
+                    />
+                    <Spacebox padding="10px" />
                     {data.backgroundType[0] === 'solid' && <div>
                         <div className="">
                             <small>Background Color</small>
@@ -303,7 +329,7 @@ const CreatorSidebar = ({ data }) => {
                             </Flexbox>
                         </div>
                         <TwitterPicker
-                            colors={['#FF6900', '#FCB900', '#7BDCB5', '#00D084', '#8ED1FC', '#0693E3', '#ABB8C3', '#EB144C', '#F78DA7', '#9900EF']}
+                            colors={['#FF6900', '#FCB900', '#7BDCB5', '#00D084', '#8ED1FC', '#0693E3', '#ABB8C3', '#EB144C', '#F78DA7', '#9900EF', '#b6d7a8', "#d5a6bd", "#eedd82", "#3d85c6", "#fce5cd"]}
                             onChange={(e) => {
                                 data.background[1](e.hex)
                             }}

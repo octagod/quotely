@@ -31,6 +31,7 @@ const Creator = () => {
     const [background, setBackground] = useState('brown')
     const [backgroundPosition, setBackgroundPosition] = useState("")
     const [backgroundSize, setBackgroundSize] = useState("")
+    const [opacity, setOpacity] = useState(10)
     const [canvaSize, setCanvaSize] = useState('16:9')
 
     const stringify_user = cookies.getCookies("user")
@@ -168,6 +169,7 @@ const Creator = () => {
                 background: background,
                 backgroundPosition: backgroundPosition,
                 backgroundSize: backgroundSize,
+                opacity: opacity,
                 canvaSize: canvaSize,
             }
             setLoading(true)
@@ -231,6 +233,7 @@ const Creator = () => {
                 background: background,
                 backgroundPosition: backgroundPosition,
                 backgroundSize: backgroundSize,
+                opacity: opacity,
                 canvaSize: canvaSize,
             }
             setLoading(true)
@@ -462,12 +465,13 @@ const Creator = () => {
                     background: [background, setBackground],
                     backgroundPosition: [backgroundPosition, setBackgroundPosition],
                     backgroundSize: [backgroundSize, setBackgroundSize],
+                    opacity: [opacity, setOpacity],
                     canvaSize: [canvaSize, setCanvaSize]
                 }} />
                 {!isMobile && <Spacebox padding="20px" />}
                 <div className="editor-holder" style={{ width: 600, height: canvaSize === '16:9' ? '337.5px' : '600px', margin: 'auto' }}>
                     <div className="editor" style={{ background: background, aspectRatio: canvaSize, width: "100%", height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundPosition: backgroundPosition ?? "center", backgroundSize: backgroundSize ?? "cover" }}>
-                        <div className="quote-holder" style={{ background: dark ? '#171923' : '#fff', width: '80%', minHeight: 200, borderRadius: '20px', boxShadow: '0px 10px 20px #0000003a', color: dark ? 'white' : 'black', padding: '20px', position: "relative" }}>
+                        <div className="quote-holder" style={{ background: dark ? `#171923${opacity === 10 ? '' : opacity + "0"}` : `#ffffff${opacity === 10 ? '' : opacity + "0"}`, width: '80%', minHeight: 200, borderRadius: '20px', boxShadow: opacity < 10 ? "0px 10px 20px transparent" : '0px 10px 20px #0000003a', color: dark ? 'white' : 'black', padding: '20px', position: "relative" }}>
                             {profileArea && <Flexbox justifyContent="space-between" alignItems="center">
                                 <Flexbox alignItems="center">
                                     {(!profile) && <Avatar />}

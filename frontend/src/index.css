@@ -343,6 +343,8 @@ select:hover {
 
   .vertical-scroll {
     overflow-y: scroll;
+    max-height: 600px;
+    overflow-x: hidden;
   }
 
   .no-grid-small {

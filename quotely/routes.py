@@ -162,22 +162,31 @@ def user():
 
     return res
 
-@app.route('/api/update_user/<id>', methods=["POST"])
-@cross_origin
-def update_user(id):
+@app.route('/api/update_user/<uid>', methods=["POST"])
+@cross_origin()
+def update_user(uid):
     """Update user in db"""
     res = make_response()
     verify = verify_cookie()
+    print(uid)
 
     if verify["success"]:
-        req = request.get_json()
-        doc = Users.query.filter_by(id=id).first()
-        doc.fullname = req["fullname"]
-        db.session.commit()
-        res = make_response(jsonify({
-            "success": True
-        }))
-        res.status_code = 200
+        try:
+            req = request.get_json()
+            doc = Users.query.filter_by(id=uid).first()
+            doc.fullname = req["fullname"]
+            db.session.commit()
+            res = make_response(jsonify({
+                "success": True
+            }))
+            res.status_code = 200
+        except Exception as e:
+            res = make_response(jsonify({
+                "success": False,
+                "msg": "An unexpected error occured",
+                "error": f"Error: {e}"
+            }))
+            res.status_code = 500
     else:
         res = make_response(jsonify({
             "success": verify["success"],
