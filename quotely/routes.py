@@ -46,6 +46,11 @@ def register():
             token = jwt.encode({"id": db_user.id}, secret_key, algorithm="HS256").decode("utf-8")
             res = make_response(jsonify({
                 "success": True,
+                "user": {
+                    "id": db_user.id,
+                    "fullname": db_user.fullname,
+                    "email": db_user.email
+                }
             }))
             # 1 day
             one_day = 24 * 60 * 60
@@ -157,6 +162,31 @@ def user():
 
     return res
 
+@app.route('/api/update_user/<id>', methods=["GET"])
+@cross_origin
+def update_user(id):
+    """Update user in db"""
+    res = make_response()
+    verify = verify_cookie()
+
+    if verify["success"]:
+        req = request.get_json()
+        doc = Users.query.filter_by(id=id).first()
+        doc.fullname = req["fullname"]
+        db.session.commit()
+        res = make_response(jsonify({
+            "success": True
+        }))
+        res.status_code = 200
+    else:
+        res = make_response(jsonify({
+            "success": verify["success"],
+            "msg": "An error occured",
+            "error": verify["error"]
+        }))
+        res.status_code = verify["code"]
+    
+    return res
 
 @app.route("/api/add_project", methods=["POST"])
 @cross_origin()

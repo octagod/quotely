@@ -30,7 +30,7 @@ const Signup = () => {
                 credentials: 'include',
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                body: JSON.stringify({ email, fullname, password })
+                body: JSON.stringify({ email: email.toLowerCase(), fullname, password })
             }).then(res => res.json())
                 .then(res => {
                     if (res.success) {

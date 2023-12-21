@@ -29,7 +29,7 @@ const Login = () => {
                 credentials: 'include',
                 method: "POST",
                 headers: {"Content-Type": "application/json", "Accept": "application/json"},
-                body: JSON.stringify({email, password})
+                body: JSON.stringify({email: email.toLowerCase(), password})
             }).then(res => res.json())
             .then(res => {
                 if(res.success) {

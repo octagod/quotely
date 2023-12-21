@@ -52,6 +52,11 @@ const Profile = () => {
             .then(res => {
                 if (res.success) {
                     setDbUser(res.user)
+                    cookies.setCookies('user', JSON.stringify({
+                        id: res.user.id,
+                        fullname: res.user.fullname,
+                        email: res.user.email
+                    }), 0.5)
                     setLoading(false)
                     setError(null)
                 } else {
@@ -106,6 +111,47 @@ const Profile = () => {
                     setOpen(true)
                     setSeverity('error')
                 })
+        }
+    }
+
+    const editUser = (user) => {
+        const newName = window.prompt("Edit full name", user.fullname)
+        if (newName !== null) {
+            fetch('/api/update_user/' + user.id, {
+                mode: 'cors',
+                method: 'POST',
+                credentials: 'include',
+                headers: { "Content-Type": "application/json", "Accept": "application/json", "Origin": "http://localhost:3000" },
+                body: JSON.stringify({
+                    fullname: newName
+                })
+            }).then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        setToastMsg("Profile updated successfully")
+                        setOpen(true)
+                        setSeverity('success')
+                        getUser()
+                    } else {
+                        console.log(res.error)
+                        setToastMsg(res.msg)
+                        setOpen(true)
+                        setSeverity('error')
+                        setLoading(false)
+                        if (res.msg === "Invalid token")
+                            navigate('/login')
+                    }
+                }).catch(err => {
+                    console.log(err)
+                    setToastMsg('An error occured')
+                    setOpen(true)
+                    setSeverity('error')
+                    setLoading(false)
+                })
+        } else {
+            setToastMsg('Action aborted')
+            setOpen(true)
+            setSeverity('error')
         }
     }
 
@@ -173,7 +219,7 @@ const Profile = () => {
                                 </Avatar>
                                 <Spacebox padding="10px" />
                                 <div>
-                                    <Typography variant="h4" style={isMobile ? {fontSize: "25px"} : {}}>
+                                    <Typography variant="h4" style={isMobile ? { fontSize: "25px" } : {}}>
                                         {dbUser.fullname}
                                     </Typography>
                                     <Spacebox padding="5px" />
@@ -182,7 +228,7 @@ const Profile = () => {
                                     </Typography>
                                 </div>
                                 <Spacebox padding="10px" />
-                                <IconButton onClick={() => { }}>
+                                <IconButton onClick={() => editUser(dbUser)}>
                                     <EditNoteOutlined sx={{ color: "White" }} />
                                 </IconButton>
                             </Flexbox>
@@ -215,7 +261,7 @@ const Profile = () => {
                                             <IconButton onClick={() => deleteProject(project)}>
                                                 <DeleteOutline sx={{ color: '#F64F64', fontSize: 20 }} />
                                             </IconButton>
-                                            <IconButton onClick={() => navigate('/creator?edit=true&id='+project.id)}>
+                                            <IconButton onClick={() => navigate('/creator?edit=true&id=' + project.id)}>
                                                 <EditOutlined sx={{ color: 'white', fontSize: 20 }} />
                                             </IconButton>
                                         </Flexbox>
@@ -227,7 +273,7 @@ const Profile = () => {
                                         <Flexbox alignItems="center" >
                                             <DateRangeOutlined sx={{ fontSize: 18, opacity: isMobile ? .7 : 1 }} />
                                             <Spacebox padding={isMobile ? "5.5px" : "1.5px"} />
-                                            <small style={isMobile ? {fontSize: "10px", opacity: .7} : {}}>{project.timestamp}</small>
+                                            <small style={isMobile ? { fontSize: "10px", opacity: .7 } : {}}>{project.timestamp}</small>
                                         </Flexbox>
                                     </Spacebox>
                                 </div>
