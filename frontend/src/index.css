@@ -310,8 +310,14 @@ select:hover {
   opacity: .3;
 }
 
-.no-grid-small {
-  display: block !important;
+.not-found-text {
+  padding-right: 12px;
+  animation: type .5s alternate infinite;
+}
+
+@keyframes type{
+  from{box-shadow: inset -3px 0px 0px #888;}
+  to{box-shadow: inset -3px 0px 0px transparent;}
 }
 
 @keyframes scroll {
@@ -337,6 +343,10 @@ select:hover {
 
   .vertical-scroll {
     overflow-y: scroll;
+  }
+
+  .no-grid-small {
+    display: block !important;
   }
 }
 

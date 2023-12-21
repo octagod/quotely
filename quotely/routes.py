@@ -16,11 +16,11 @@ load_dotenv()
 secret_key = os.environ["SECRET_KEY"]
 
 
-@app.route('/')
+@app.route('/<path>')
 @cross_origin()
-def serve():
+def serve(path):
     """Serves the front end"""
-    print(app.static_folder)
+    print(path)
     return send_from_directory(app.static_folder, "index.html")
 
 @app.route('/api/register', methods=["POST"])
@@ -338,6 +338,13 @@ def get_users(password):
     else:
         res.status_code = 404
     return res
+
+
+@app.errorhandler(404)
+@cross_origin()
+def handle_404(error):
+    """Enable frontend to handle not found"""
+    return send_from_directory(app.static_folder, "index.html")
 
 def verify_cookie():
     """Verify token"""

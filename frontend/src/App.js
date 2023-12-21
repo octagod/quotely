@@ -4,6 +4,7 @@ import Creator from "./pages/Creator";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
            <Route exact path="/signup" element={<Signup />}/>
            <Route exact path="/login" element={<Login />}/>
            <Route exact path="/profile" element={<Profile />}/>
+           <Route exact path="*" element={<NotFound />} />
          </Routes>
       </Router>
     </div>
