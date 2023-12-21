@@ -282,6 +282,7 @@ const Creator = () => {
             setUser(JSON.parse(stringify_user))
         if (edit)
             populateData(pid)
+        setDateTime(`${(new Date(Date.now())).toString().substring(0, 15)} • ${(new Date(Date.now())).toString().substring(16, 21)}`)
 
         // eslint-disable-next-line
     }, [])
