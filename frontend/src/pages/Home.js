@@ -20,16 +20,16 @@ const Home = () => {
                     <Spacebox padding="20px" />
                     <Flexbox justifyContent="flex-end">
                         <IconButton onClick={() => setOpenMenu(false)}>
-                            <Close  sx={{ color: 'white', fontSize: '40px' }}/>
+                            <Close sx={{ color: 'white', fontSize: '40px' }} />
                         </IconButton>
                     </Flexbox>
                     <Spacebox padding="10px" />
-                    <Typography sx={{fontSize: '40px', textAlign: 'center'}}>
-                        <Link to="/login" className="bold" style={{color: 'white'}}>Login</Link>
+                    <Typography sx={{ fontSize: '40px', textAlign: 'center' }}>
+                        <Link to="/login" className="bold" style={{ color: 'white' }}>Login</Link>
                     </Typography>
                     <Spacebox padding="10px" />
-                    <Typography sx={{fontSize: '40px', textAlign: 'center'}}>
-                        <Link to="/signup" className="bold" style={{color: 'white'}}>Sign Up</Link>
+                    <Typography sx={{ fontSize: '40px', textAlign: 'center' }}>
+                        <Link to="/signup" className="bold" style={{ color: 'white' }}>Sign Up</Link>
                     </Typography>
                 </div>}
                 <div className="fullwidth" style={{ minHeight: '100vh', position: "relative" }}>
@@ -81,6 +81,10 @@ const Home = () => {
                             </div>
                         </div>
                     </Flexbox>
+                    <Spacebox padding="10px" />
+                    <Typography sx={{fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', textAlign: 'center'}}>
+                        This app was built by <a style={{color: "var(--primary)", fontWeight: '700'}} href="https://x.com/owen_nicklauss">Nicklaus</a> with ❤️
+                    </Typography>
                     <div className="anim">
                         <img src="/assets/banner_quotely.png" alt="" />
                         <img src="/assets/banner_quotely.png" alt="" />

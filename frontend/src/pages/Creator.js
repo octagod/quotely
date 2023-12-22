@@ -38,6 +38,7 @@ const Creator = () => {
     const [user, setUser] = useState(null)
     const navigate = useNavigate()
 
+    const [exportLoading, setExportLoading] = useState(false);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState('success');
@@ -58,6 +59,7 @@ const Creator = () => {
     }
 
     function downloadPost(div) {
+        setExportLoading(true)
         const branded = document.querySelector('.branded')
         branded.classList.remove('hide')
         html2canvas(div).then(canvas => {
@@ -66,9 +68,10 @@ const Creator = () => {
             setToastMsg("Post downloaded successfully")
             setOpen(true)
             setSeverity('success')
+            setExportLoading(true)
         });
         branded.classList.add('hide');
-
+        setOpenMenu(false)
     }
 
 
@@ -342,13 +345,16 @@ const Creator = () => {
                 <CustomButton backgroundColor="transparent" className="fullwidth" borderRadius="10px" color="white" padding="10px 0px" handleClick={() => {
                     downloadPost(document.querySelector('div.editor'))
                 }}>
-                    <Flexbox alignItems="center" justifyContent="center">
+                    {!exportLoading && <Flexbox alignItems="center" justifyContent="center">
                         <Download sx={{ fontSize: 40 }} />
                         <Spacebox padding="5px" />
                         <Typography sx={{ fontSize: 40, color: "white", fontWeight: 700 }}>
                             Export
                         </Typography>
-                    </Flexbox>
+                    </Flexbox>}
+                    {exportLoading && <Flexbox alignItems="center" justifyContent="center">
+                        <Jelly size={30} color="white" />
+                    </Flexbox>}
                 </CustomButton>
                 {!user && <div>
                     <Spacebox padding="10px" />

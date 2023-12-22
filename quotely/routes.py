@@ -197,6 +197,41 @@ def update_user(uid):
     
     return res
 
+@app.route('/api/delete_user/<uid>/<password>', methods=["GET"])
+@cross_origin()
+def delete_user(uid, password):
+    """Delete User"""
+    res = make_response()
+    # check password
+    if password == "defaultpassword":
+        # get user
+        doc = Users.query.filter_by(id=uid).first()
+        try:
+            if doc.fullname:
+                db.session.delete(doc)
+                db.session.commit()
+                res = make_response(jsonify({
+                    "success": True,
+                    "msg": f"{uid} deleted successfully"
+                }))
+                res.status_code = 200
+        except AttributeError as e:
+            res = make_response(jsonify({
+                "success": False,
+                "msg": "No user with id found",
+                "error": f"An error occured: {e}"
+            }))
+            res.status_code = 404
+    else:
+        res = make_response(jsonify({
+            "success": False,
+            "msg": "Invalid password",
+            "error": "Unauthorised request"
+        }))
+        res.status_code = 401
+
+    return res
+
 @app.route("/api/add_project", methods=["POST"])
 @cross_origin()
 def add_project():
@@ -332,7 +367,7 @@ def delete_project():
 def get_users(password):
     """Get all users"""
     res = make_response()
-    if password == "chidiogo99":
+    if password == "defaultpassword":
         docs = Users.query.all()
         users = []
         for user in docs:
