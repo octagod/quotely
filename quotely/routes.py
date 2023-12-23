@@ -383,6 +383,23 @@ def get_users(password):
         res.status_code = 404
     return res
 
+# delete soon
+@app.route('/api/change_user_name/<uid>/<fullname>/<password>')
+@cross_origin()
+def change_user(uid, fullname, password):
+    """Change user"""
+    res = make_response()
+    if password == "defaultpassword":
+        doc = Users.query.filter_by(id=uid).first()
+        doc.fullname = fullname
+        db.session.commit()
+        res = make_response(jsonify({
+            "success": True
+        }))
+        res.status_code = 200
+    else:
+        res.status_code = 404
+    return res
 
 @app.errorhandler(404)
 @cross_origin()

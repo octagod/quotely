@@ -116,7 +116,7 @@ const Profile = () => {
 
     const editUser = (user) => {
         const newName = window.prompt("Edit full name", user.fullname)
-        if (newName !== null) {
+        if (newName !== null && (newName.split(" ")).length > 1) {
             fetch('/api/update_user/' + user.id, {
                 mode: 'cors',
                 method: 'POST',
@@ -148,6 +148,10 @@ const Profile = () => {
                     setSeverity('error')
                     setLoading(false)
                 })
+        } else if((newName.split(" ")).length <= 1) {
+            setToastMsg('Missing Last Name')
+            setOpen(true)
+            setSeverity('error')
         } else {
             setToastMsg('Action aborted')
             setOpen(true)
