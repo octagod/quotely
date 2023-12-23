@@ -383,7 +383,7 @@ def get_users(password):
         res.status_code = 404
     return res
 
-# delete soon
+# delete very soon
 @app.route('/api/change_user_name/<uid>/<fullname>/<password>')
 @cross_origin()
 def change_user(uid, fullname, password):
