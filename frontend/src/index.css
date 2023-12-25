@@ -294,6 +294,11 @@ select:hover {
   }
 }
 
+.by-nick {
+  z-index: 2;
+  position: relative;
+}
+
 .anim {
   position: absolute;
   right: 0px;

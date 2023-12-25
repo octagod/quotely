@@ -82,7 +82,7 @@ const Home = () => {
                         </div>
                     </Flexbox>
                     <Spacebox padding="10px" />
-                    <Typography sx={{fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', textAlign: 'center'}}>
+                    <Typography className="by-nick" sx={{fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', textAlign: 'center'}}>
                         This app was built by <a style={{color: "var(--primary)", fontWeight: '700'}} href="https://x.com/owen_nicklauss">Nicklaus</a> with ❤️
                     </Typography>
                     <div className="anim">

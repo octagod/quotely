@@ -2,7 +2,7 @@
 import os
 import json
 import jwt
-from flask import jsonify, request, make_response, send_from_directory
+from flask import jsonify, request, make_response, send_from_directory, send_file
 from flask_bcrypt import Bcrypt
 from flask_cors import cross_origin
 from dotenv import load_dotenv
@@ -400,6 +400,18 @@ def change_user(uid, fullname, password):
     else:
         res.status_code = 404
     return res
+
+@app.route('/api/download_db/<password>')
+def download_db(password):
+    """Download db"""
+    if password == "defaultpassword":
+        # Specify the file's path
+        file_path = os.path.abspath("instance/database.db")
+        # Send the file to the browser
+        return send_file(file_path, as_attachment=True)
+
+    return jsonify({"success": False})
+    
 
 @app.errorhandler(404)
 @cross_origin()
