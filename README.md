@@ -8,7 +8,7 @@ This project was built with the following stacks
 
 ### Python (Flask)
 
-Flask was used on the backend to handle user authentication and database insteraction
+`Flask` was used on the backend to handle user authentication and database insteraction
 
 ### Javascript (ReactJs)
 
