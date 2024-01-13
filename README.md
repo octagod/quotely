@@ -2,6 +2,10 @@
 
 This is a tool that allows users to easily create beautiful social media posts images instantly, fully customisable and 100% all for free.
 
+## Demo
+
+[Live Link](http://quotely-d4a2c520918a.herokuapp.com/)
+
 ## Stacks
 
 This project was built with the following stacks
