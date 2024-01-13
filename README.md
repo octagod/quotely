@@ -6,7 +6,7 @@ This is a tool that allows users to easily create beautiful social media posts i
 
 This project was built with the following stacks
 
->> hello
+//hello
 
 ### Python (Flask)
 
