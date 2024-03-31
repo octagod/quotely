@@ -43,6 +43,23 @@ Some of the prominent packages used in Flask were:
 3. Python JWT
 4. Flask CORS
 
+### Installation
+
+To install all the project's required packages, you will need to run
+
+`pip install -r requirements.txt`
+
+This command installs all the packages the project requires.
+
+### Running the server
+
+To run the server use the following command
+
+`python3 app.py`
+
+The server will start on http://localhost:5000
+
+
 ## Author
 
 [Owen Nicklaus C. Ujumadu](mailto:ujumaduowen@gmail.com)
