@@ -159,7 +159,7 @@ const CreatorSidebar = ({ data }) => {
                 <Spacebox className="sidebar-inner" style={{ ...sidebar_inner }}>
                     {menus.map((menu, index) => (
                         <div key={index} className="item" onClick={menu.action} style={{ ...item_style }}>
-                            <div style={{ textAlign: 'center', padding: '10px', borderRadius: '5px', background: isMobile ? "transparent" : '#0000003a' }}>
+                            <div style={{ textAlign: 'center', padding: '10px', borderRadius: '5px', background: "transparent" }}>
                                 <img src={menu.image} alt={menu.title} style={{ width: 20, filter: 'invert(1)' }} />
                             </div>
                             <Spacebox padding="5px" />

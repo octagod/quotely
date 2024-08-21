@@ -24,7 +24,7 @@ const Creator = () => {
     const [username, setUsername] = useState('johndoe_')
     const [socialMedia, setSocialMedia] = useState('twitter')
     const [verified, setVerified] = useState(false)
-    const [quote, setQuote] = useState('This is the body text @mena #quotelyrocks #makeAlive')
+    const [quote, setQuote] = useState('Follow nicklaus on X @owen_nicklaus #quotelyrocks #makeBelieve')
     const [dateTime, setDateTime] = useState('12/2/2023 • 8:17am')
     const [dark, setDark] = useState(true)
     const [backgroundType, setBackgroundType] = useState('solid')
@@ -68,7 +68,7 @@ const Creator = () => {
             setToastMsg("Post downloaded successfully")
             setOpen(true)
             setSeverity('success')
-            setExportLoading(true)
+            setExportLoading(false)
         });
         branded.classList.add('hide');
         setOpenMenu(false)
@@ -477,7 +477,7 @@ const Creator = () => {
                 {!isMobile && <Spacebox padding="20px" />}
                 <div className="editor-holder" style={{ width: 600, height: canvaSize === '16:9' ? '337.5px' : '600px', margin: 'auto' }}>
                     <div className="editor" style={{ background: background, aspectRatio: canvaSize, width: "100%", height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundPosition: backgroundPosition ?? "center", backgroundSize: backgroundSize ?? "cover" }}>
-                        <div className="quote-holder" style={{ background: dark ? `#171923${opacity === 10 ? '' : opacity + "0"}` : `#ffffff${opacity === 10 ? '' : opacity + "0"}`, width: '80%', minHeight: 200, borderRadius: '20px', boxShadow: opacity < 10 ? "0px 10px 20px transparent" : '0px 10px 20px #0000003a', color: dark ? 'white' : 'black', padding: '20px', position: "relative" }}>
+                        <div className="quote-holder" style={{ background: dark ? `#171923${opacity === 10 ? '' : opacity + "0"}` : `#ffffff${opacity === 10 ? '' : opacity + "0"}`, width: '80%', minHeight: 50, borderRadius: '20px', boxShadow: opacity < 10 ? "0px 10px 20px transparent" : '0px 10px 20px #0000003a', color: dark ? 'white' : 'black', padding: '20px', position: "relative" }}>
                             {profileArea && <Flexbox justifyContent="space-between" alignItems="center">
                                 <Flexbox alignItems="center">
                                     {(!profile) && <Avatar />}
@@ -503,13 +503,13 @@ const Creator = () => {
                                 </div>
                             </Flexbox>}
                             <Spacebox padding="10px" />
-                            <div style={{ minHeight: 100 }}>
-                                <Typography dangerouslySetInnerHTML={{ __html: process(quote) }}></Typography>
+                            <div style={{ minHeight: 20 }}>
+                                <Typography style={{fontSize: isMobile ? 15 : 15}} dangerouslySetInnerHTML={{ __html: process(quote) }}></Typography>
                             </div>
                             <Spacebox padding="10px" />
-                            <Typography style={{ opacity: 0.3 }}>
+                            {profileArea && <Typography style={{ opacity: 0.3, fontSize: 15 }}>
                                 {dateTime}
-                            </Typography>
+                            </Typography>}
                             <small className="branded hide" style={{ position: 'absolute', right: 10, bottom: -30, display: 'block', color: 'white' }}>
                                 Built with <b>Quotely</b>
                             </small>

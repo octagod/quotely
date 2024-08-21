@@ -17,6 +17,7 @@
     "html2canvas": "^1.4.1",
     "jest-worker": "^29.7.0",
     "mui-file-input": "^3.0.1",
+    "range": "^0.0.3",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-device-detect": "^2.2.3",

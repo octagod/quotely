@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/static/css/main.215e2758.css",
-    "main.js": "/static/js/main.5d51bdeb.js",
+    "main.js": "/static/js/main.1169b0c4.js",
     "static/media/Nordique-Pro-Bold.ttf": "/static/media/Nordique-Pro-Bold.8c1f1b7b54b3139f4f96.ttf",
     "static/media/Nordique-Pro-Bold.woff": "/static/media/Nordique-Pro-Bold.8ce02f34f05b9c009cbb.woff",
     "static/media/Nordique-Pro-Bold.woff2": "/static/media/Nordique-Pro-Bold.57f193fe35e93d7fc06b.woff2",
     "index.html": "/index.html",
     "main.215e2758.css.map": "/static/css/main.215e2758.css.map",
-    "main.5d51bdeb.js.map": "/static/js/main.5d51bdeb.js.map"
+    "main.1169b0c4.js.map": "/static/js/main.1169b0c4.js.map"
   },
   "entrypoints": [
     "static/css/main.215e2758.css",
-    "static/js/main.5d51bdeb.js"
+    "static/js/main.1169b0c4.js"
   ]
 }
